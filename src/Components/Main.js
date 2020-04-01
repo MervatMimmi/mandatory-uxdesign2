@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import {Link} from 'react-router-dom';
 import axios from 'axios';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
+
 import './App.css';
 import MyModal from './MyModal';
 
@@ -112,13 +112,12 @@ export default function Main(){
     const [correctAnswers, updateCorrectAnswers] = useState([]);
     const [score, updateScore] = useState(0);
     const [modal, setModal] = useState(false);
+  
     
     const classes = useStyles();
-    const openModal = () => setModal(true);
-    const closeModal = () => setModal(false);
-    
+    const openModal = () => setModal(true)
+    const closeModal = () => setModal(false)
 
-  
     const  selectedCode = {
                             '&amp;': '&',
                             '&uuml;': 'ü',
@@ -171,7 +170,7 @@ export default function Main(){
     
 
     return (
-        <section className = {classes.section}>
+        <section className = {classes.section} >
             
             <form className = {classes.form}
                             onSubmit = {onSubmit}>
@@ -218,11 +217,15 @@ export default function Main(){
                 })}
                 <div className={classes.submitbutton}>
                    
-                    {!modal && <Button className = {classes.button} variant="contained" color="primary"  type = 'submit' tabIndex = '0'
+                    {!modal && <Button className = {classes.button} 
+                        variant="contained" 
+                        color="primary"  
+                        type = 'submit' 
+                        tabIndex = '0' 
                         onClick = {openModal} >
                         Submit     
                     </Button>}
-                    <MyModal closeModal = {closeModal} modal = {modal}  />
+                    <MyModal closeModal = {closeModal} modal = {modal}   />
                 </div>
             </form>
         </section>

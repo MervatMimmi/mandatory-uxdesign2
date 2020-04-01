@@ -5,11 +5,26 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
+
 const useStyles = makeStyles(theme => ({
+    backdrop: {
+    '&:before': {
+        position: 'fixed',
+        top: '0',
+        left: '0',
+        background: '#000',
+        opacity: '0.8',
+        zIndex: '998',
+        height: '100%',
+        width: '100%',
+    },
+    },
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        postion: 'absolut',
+        zIndex: '999',
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
@@ -20,6 +35,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function MyModal(props) {
+
     const classes = useStyles();
     const{modal, closeModal} = props;
 
@@ -40,7 +56,7 @@ export default function MyModal(props) {
                     timeout: 500,
                 }}
             >
-                <Fade in={modal} out = {!modal}>
+                <Fade in={modal} >
                     <div className={classes.paper}>
                         <h2 tabIndex = '0'>Animated React Modal</h2>
                         <p tabIndex = '0'>
