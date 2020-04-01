@@ -1,0 +1,108 @@
+.section-top {
+    width: 100%;
+    min-height: 'inherit';
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background: rgb(230, 230, 230);
+    margin: 0;
+    padding: 0;
+}
+.section-form {
+    width: 50%;
+    min-height: inherit;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+}
+.radio-quiz {
+    color: rgb(36, 36, 36);
+    padding: 0.5rem 0.25rem;
+    border-bottom: 0.125rem solid rgb(36, 36, 36);
+}
+.radio-label {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: nowrap;
+    margin: 0.75rem 0;
+    cursor: pointer;
+    position: relative;
+}
+.radio-input {
+   opacity: 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    
+    
+}
+.radio-design {
+    width: 1rem;
+    height: 1rem;
+    border: 0.1rem solid rgb(36, 36, 36);
+    border-radius: 100%;
+    margin-right: 1rem;
+    position: relative;
+}
+.radio-design::before,
+.radio-design::after {
+    content: "";
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    position: absolute;
+    transform: scale(0);
+    transform-origin: center center;
+}
+.radio-design::before {
+    background: rgb(36, 36, 36);
+    opacity: 0;
+    transition: .3s;
+} 
+.radio-design::after {
+    background: #3f51b5;
+    opacity: .4;
+    transition: .6s;
+}
+.radio-text {
+    color: rgb(36, 36, 36);
+    font-weight: bold;
+} 
+  /* checked state */
+.radio-input:checked + .radio-design::before {
+    opacity: 1;
+    transform: scale(.6);
+} 
+  /* other states */
+.radio-input:hover + .radio-design,
+.radio-input:focus + .radio-design {
+    border: 0.1rem solid #3f51b5;
+}
+  
+.radio-input:hover + .radio-design:before,
+.radio-input:focus + .radio-design:before {
+    background:  #3f51b5;
+}
+  
+.radio-input:hover ~ .radio-text {
+    color: #3f51b5;
+}
+  
+.radio-input:focus + .radio-design::after,
+.radio-input:active + .radio-design::after {
+    opacity: .1;
+    transform: scale(2.6);
+}
+.radio-button__submit {
+      position: relative;
+      top: 50%;
+      left: 41%;
+      margin: 5rem;
+}

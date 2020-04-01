@@ -40,6 +40,7 @@ export default function Header(){
 
     
     return(
+        <div>
         <AppBar className = {classes.appBar}>
             <Toolbar>
                 <IconButton
@@ -66,5 +67,6 @@ export default function Header(){
                 </Typography>
             </Toolbar>
         </AppBar>
+    </div>
     )
 }

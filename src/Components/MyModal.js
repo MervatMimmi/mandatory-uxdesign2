@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React from 'react';
+import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -7,41 +8,38 @@ import Fade from '@material-ui/core/Fade';
 
 
 const useStyles = makeStyles(theme => ({
-    backdrop: {
-    '&:before': {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        background: '#000',
-        opacity: '0.8',
-        zIndex: '998',
-        height: '100%',
-        width: '100%',
-    },
-    },
     modal: {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        postion: 'absolut',
-        zIndex: '999',
+       
+
     },
     paper: {
         backgroundColor: theme.palette.background.paper,
-        border: '2px solid #000',
+        borderRadius: '16px',
+        border: '2px solid #3f51b5',
         boxShadow: theme.shadows[5],
         padding: theme.spacing(2, 4, 3),
+        
     },
+    modalbuttons: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'start',
+        justifyContent: 'space-around',
+    }
 }));
 
 export default function MyModal(props) {
-
     const classes = useStyles();
     const{modal, closeModal} = props;
 
-    return (
-        <div className = {classes.backdrop}>
 
+    return (
+        <div className = {classes.backdrop} >
+
+            
             
 
             <Modal
@@ -50,10 +48,12 @@ export default function MyModal(props) {
                 className={classes.modal}
                 open={modal}
                 onClose={closeModal}
+
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
+                    
                 }}
             >
                 <Fade in={modal} >
@@ -62,9 +62,24 @@ export default function MyModal(props) {
                         <p tabIndex = '0'>
                           
                         </p>
-                        <Button variant="contained" color="secondary" onClick={closeModal} tabIndex = '0'>
-                           Re-start
-                        </Button>
+                        <div className = {classes.modalbuttons}>
+                            <div className={classes.restartbutton}>
+                                <Button variant="contained" 
+                                    color="secondary" 
+                                    onClick={closeModal} 
+                                    tabIndex = '0'
+                                >
+                                Re-start
+                                </Button>
+                            </div>
+                            <div className={classes.closebutton}>
+                                <Link className = {classes.link} to = '/'> 
+                                    <Button className = {classes.button} variant="contained" color="primary">
+                                        Close
+                                    </Button>
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </Fade>
             </Modal>
