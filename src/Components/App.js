@@ -5,7 +5,7 @@ import { makeStyles} from '@material-ui/core/styles';
 import Header from './Header';
 import Start from './Start';
 import Main from './Main';
-import MyModal from './MyModal';
+
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -23,7 +23,6 @@ function App() {
       <Header/>
       <Route exact path = '/' component = {Start} />
       <Route path = '/Main' component = {Main} />
-      <Route path = '/MyModal' component = {MyModal}/>
     </div>
     </Router>
   );

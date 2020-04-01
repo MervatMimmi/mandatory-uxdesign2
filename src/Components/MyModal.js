@@ -21,52 +21,33 @@ const useStyles = makeStyles(theme => ({
 
 export default function MyModal(props) {
     const classes = useStyles();
-    const [open, setOpen] = useState(false);
-
-    const handleOpen = () => {
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    let message; 
-        if(props.point === 0){
-            message = 'Not so good! Try again';
-        } else if (props.point >= 5 && props.point <= 6){
-            message = 'Not bad!';
-        } else {
-            message = 'Well Done!';
-        }
+    const{modal, closeModal} = props;
 
     return (
         <div className = {classes.backdrop}>
 
-            <Button variant="contained" color="secondary" onClick={handleOpen}>
-                Open Animated Modal
-            </Button>
+            
 
             <Modal
                 aria-labelledby="transition-modal-title"
                 aria-describedby="transition-modal-description"
                 className={classes.modal}
-                open={open}
-                onClose={handleClose}
+                open={modal}
+                onClose={closeModal}
                 closeAfterTransition
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
                 }}
             >
-                <Fade in={open} out = {!open}>
+                <Fade in={modal} out = {!modal}>
                     <div className={classes.paper}>
-                        <h2>Animated React Modal</h2>
-                        <p>
-                            {message}
+                        <h2 tabIndex = '0'>Animated React Modal</h2>
+                        <p tabIndex = '0'>
+                          
                         </p>
-                        <Button variant="contained" color="secondary" onClick={handleClose}>
-                            Open Animated Modal
+                        <Button variant="contained" color="secondary" onClick={closeModal} tabIndex = '0'>
+                           Re-start
                         </Button>
                     </div>
                 </Fade>

@@ -4,7 +4,7 @@ import axios from 'axios';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 import './App.css';
-import Popup from './MyModal'
+import MyModal from './MyModal';
 
 const useStyles = makeStyles(theme => ({
     section: {
@@ -21,12 +21,10 @@ const useStyles = makeStyles(theme => ({
     },
     form: {
         width: '50%',
-        justifyContent: 'start',
-        alignItems: 'start',
         minHeight: 'inherit',
         display: 'flex',
-        justifyContent: 'center',
         flexDirection: 'column',
+        justifyContent: 'center',
         position: 'relative',
     },
     quiz: {
@@ -113,10 +111,13 @@ export default function Main(){
     const [selectedAnswer, updateSelectedAnswer] = useState([]);
     const [correctAnswers, updateCorrectAnswers] = useState([]);
     const [score, updateScore] = useState(0);
-    const classes = useStyles();
+    const [modal, setModal] = useState(false);
     
-    //const [showPopup, updateShowPopup] = useState(false);
-    //const [modal, updateModal] = useState(false);
+    const classes = useStyles();
+    const openModal = () => setModal(true);
+    const closeModal = () => setModal(false);
+    
+
   
     const  selectedCode = {
                             '&amp;': '&',
@@ -157,25 +158,32 @@ export default function Main(){
     }
       
     function onSubmit() {
-        for(let i = 0; i < 10; i ++)
+        
+       /* for(let i = 0; i < 10; i ++)
             if(correctAnswers === selectedAnswer) {
                 updateScore(score +=1)
                 console.log(updateScore);
                 
                 }
+            */
         }
+
     
-    
+
     return (
         <section className = {classes.section}>
             
             <form className = {classes.form}
                             onSubmit = {onSubmit}>
+                
                 {quizData.map((quiz, idx) => {
                     let answers = [quiz.correct_answer, ...quiz.incorrect_answers].sort(()=> Math.random() -3);
                     return (
                         <div>
-                            <h4 className = {classes.quiz}>{idx += 1 }{' '}{quiz.question.replace(/&#?\w+;/g, match => selectedCode[match])}</h4>
+                            <h4 className = {classes.quiz}
+                                    tabIndex = '0'>
+                                        {idx += 1 }{' '}{quiz.question.replace(/&#?\w+;/g, match => selectedCode[match])}
+                            </h4>
                                 {answers.map((answer, idx) => {
                                     return(
                                     <section className = {classes.answers} >
@@ -187,13 +195,18 @@ export default function Main(){
                                                 type = 'radio'
                                                 value = 'true'
                                                 name = {quiz.question}
-                                                checked = {selectedAnswer[idx]}
+                                                checked 
                                                 onChange = {onChange}
+                                                
                                                 />
                                             <span className = {classes.design}
-                                                id = 'design'></span>
+                                                id = 'design'
+                                                tabIndex = '0'>
+                                                    
+                                                </span>
                                             <span className = {classes.text}
-                                                id = 'text'>
+                                                id = 'text'
+                                                tabIndex = '0'>
                                                     {answer}
                                             </span>
                                         </label>
@@ -204,11 +217,12 @@ export default function Main(){
                         )
                 })}
                 <div className={classes.submitbutton}>
-                    <Link className = {classes.link} to = '/MyModal'> 
-                        <Button className = {classes.button} variant="contained" color="primary" type = 'submit'>
-                            Submit
-                        </Button>
-                    </Link>
+                   
+                    {!modal && <Button className = {classes.button} variant="contained" color="primary"  type = 'submit' tabIndex = '0'
+                        onClick = {openModal} >
+                        Submit     
+                    </Button>}
+                    <MyModal closeModal = {closeModal} modal = {modal}  />
                 </div>
             </form>
         </section>

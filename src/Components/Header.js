@@ -45,12 +45,14 @@ export default function Header(){
                 <IconButton
                     className = {classes.menuButton}
                     arial-label = 'Open drawer'
+                    tabIndex = '0'
                     edge = 'start'
                     onClick = {handleDrawer(true)}
                 >
                     <MenuIcon />
                     <Drawer
                         className = {classes.drawer}
+                        tabIndex = '0'
                         variant = 'temporary'
                         anchor = {theme.direction === 'rtl' ? 'right' : 'left'} 
                         open = {openDrawer}
@@ -59,7 +61,7 @@ export default function Header(){
                     >
                     </Drawer>
                 </IconButton>
-                <Typography variant = 'h6' color = 'inherit'>
+                <Typography variant = 'h6' color = 'inherit' tabIndex = '0'>
                     Quiz Master Application
                 </Typography>
             </Toolbar>
