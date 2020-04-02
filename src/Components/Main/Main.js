@@ -11,7 +11,7 @@ import './Main.css';
 const useStyles = makeStyles((theme) => ({
     loading: {
         marginTop: '25%',
-        marginBottom: '35%',
+        marginBottom: '34.2%',
         width: '50%',
         '& > * + *': {
             marginTop: theme.spacing(4),
