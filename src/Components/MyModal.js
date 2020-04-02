@@ -1,5 +1,4 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -33,14 +32,21 @@ const useStyles = makeStyles(theme => ({
 
 export default function MyModal(props) {
     const classes = useStyles();
-    const{modal, closeModal} = props;
+    const{modal, closeModal, score, reStart, redirectHome} = props;
 
+    let message; 
+    if (score <= 1){
+        message = 'Try again';
+    } else if (score >= 1 && score <= 5) {
+        message = 'You can do better, try again';
+    } else if(score >= 6 && score <= 9) {
+        message = 'Well done!';
+    } else {
+        message = 'Congratulations!'
+    }
 
     return (
         <div className = {classes.backdrop} >
-
-            
-            
 
             <Modal
                 aria-labelledby="transition-modal-title"
@@ -48,8 +54,8 @@ export default function MyModal(props) {
                 className={classes.modal}
                 open={modal}
                 onClose={closeModal}
-
                 closeAfterTransition
+                disableBackdropClick = {true}
                 BackdropComponent={Backdrop}
                 BackdropProps={{
                     timeout: 500,
@@ -58,26 +64,28 @@ export default function MyModal(props) {
             >
                 <Fade in={modal} >
                     <div className={classes.paper}>
-                        <h2 tabIndex = '0'>Animated React Modal</h2>
+                        <h2 tabIndex = '0'>{message}</h2>
                         <p tabIndex = '0'>
-                          
+                          You answered {score}/10 questions correct!
                         </p>
                         <div className = {classes.modalbuttons}>
                             <div className={classes.restartbutton}>
                                 <Button variant="contained" 
                                     color="secondary" 
-                                    onClick={closeModal} 
+                                    //onClick={closeModal} 
                                     tabIndex = '0'
+                                    onClick = {reStart}
                                 >
                                 Re-start
                                 </Button>
                             </div>
                             <div className={classes.closebutton}>
-                                <Link className = {classes.link} to = '/'> 
-                                    <Button className = {classes.button} variant="contained" color="primary">
+                                    <Button className = {classes.button} 
+                                        variant="contained" 
+                                        color="primary"
+                                        onClick = {redirectHome}>
                                         Close
                                     </Button>
-                                </Link>
                             </div>
                         </div>
                     </div>

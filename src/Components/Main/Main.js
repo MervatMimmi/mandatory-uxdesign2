@@ -1,34 +1,36 @@
 import React, { useState, useEffect } from 'react';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
-import {Button} from '@material-ui/core';
-//import {makeStyles} from '@material-ui/core/styles';
+import {Button, LinearProgress} from '@material-ui/core';
+import {makeStyles} from '@material-ui/core/styles';
 
 import MyModal from '../MyModal';
 import './Main.css';
 
-
+const useStyles = makeStyles((theme) => ({
+    loading: {
+        marginTop: '25%',
+        marginBottom: '35%',
+        width: '50%',
+        '& > * + *': {
+            marginTop: theme.spacing(4),
+        },
+    },
+  }));
 
 const API_QUIZ = 'https://opentdb.com/api.php?amount=10&category=27&type=multiple';
 
 export default function Main(){
     const [quizData, updateQuizData] = useState([]);
-    const [selectedAnswer, updateSelectedAnswer] = useState([]);
     const [correctAnswers, updateCorrectAnswers] = useState([]);
-    const [score, updateScore] = useState(1);
+    const [score, updateScore] = useState(0);
     const [modal, setModal] = useState(false);
-    //const [disable, updateDisable] =useState(false);
-  
-    /*function openModal(){
-        setModal(true)
-        updateDisable(!disable);
-    }
+    const [redirect, updateRedirect] = useState(false);
+    const [loading, updateLoding] = useState(true);
 
-    function closeModal() {
-        setModal(false)
-        updateDisable(disable);
-    }*/
-
-    //const classes = useStyles();
+    
+    const classes = useStyles();
+    
     const openModal = () => setModal(true)
     const closeModal = () => setModal(false)
 
@@ -44,20 +46,32 @@ export default function Main(){
                             '&ntilde;': 'ñ',
     }
 
-    useEffect(() => {
+    
+    const fetchData = async() => {
+        const response = await axios.get(API_QUIZ);
+        //console.log(response.data);
+        updateLoding(false);
+        updateQuizData(response.data.results);  
+        rightAnswer(response.data.results);  
+        }
+    /*useEffect(()=> {
         const fetchData = async() => {
             const response = await axios.get(API_QUIZ);
-            console.log(response.data);
+            //console.log(response.data);
             updateQuizData(response.data.results);  
             rightAnswer(response.data.results);  
-        }
+            }
+            fetchData();
+    }, [])*/
+   
+   
+    useEffect(() => {   
         fetchData();
     }, []);
 
-
     function rightAnswer(quizData){
         quizData.map((question, idx) => {
-            console.log("Q: "+ question.correct_answer);
+            //console.log("Q: "+ question.correct_answer);
             updateCorrectAnswers(correctAnswers =>[...correctAnswers, question.correct_answer]);
             })
                
@@ -65,32 +79,53 @@ export default function Main(){
 
     function onChange(e){
         //e.preventDefault();
-        console.log(e.target.value);
-        console.log(correctAnswers.length);
+        //console.log(e.target.value);
+        //console.log(correctAnswers.length);
         ifCorrectAnswerUpdateScore(e.target.value);
     }
 
     function ifCorrectAnswerUpdateScore(choosen){
         for(let i = 0; i < correctAnswers.length; i++){
-            //console.log("ca: "+correctAnswers[i] + " === " + choosen);
-            if(correctAnswers[i] === choosen){
-                updateScore(score +1);
+           // console.log("ca: "+correctAnswers[i] + " === " + choosen);
+            if(correctAnswers[i] === choosen){ 
+                updateScore(score => score + 1)
+                //updateScore(score +=1);
                 //console.log("score: "+score); 
             }
         }
     }
-      
-    function onSubmit(e) {
-        
-        
-        
-        }
-   
-    return (
+    
+    
+    function reStart(){
+        updateQuizData([]);
+        updateCorrectAnswers([]);
+        updateScore([]);
+        setModal(false);
+        fetchData();
+        updateLoding(!false);
+    }
+
+    function redirectHome() {
+        setModal(false);
+        updateRedirect(true);
+    }
+
+    if(redirect){
+        return <Redirect to ='/'/>
+    }
+    
+    return ( 
         <section className = 'section-top'  >
+            {loading ? (
+            <div className = {classes.loading}>
+               <LinearProgress />
+               <LinearProgress color="secondary" />
+            </div>
+           ): ( 
             
             <form className = 'section-form'
-                            onSubmit = {onSubmit}>
+                            //onSubmit = {onSubmit}
+                            >
                 
                 {quizData.map((quiz, idx) => {
                     let answers = [quiz.correct_answer, ...quiz.incorrect_answers].sort(()=> Math.random() -3);
@@ -141,9 +176,10 @@ export default function Main(){
                         onClick = {openModal} >
                         Submit     
                     </Button>}
-                    <MyModal closeModal = {closeModal} modal = {modal}  />
+                    <MyModal closeModal = {closeModal} modal = {modal} score = {score} reStart = {reStart} redirectHome = {redirectHome} />
             </div> 
             </form>
+            )}
         </section>
     );
    
