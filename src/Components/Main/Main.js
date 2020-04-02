@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 import {Button, LinearProgress} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
 
-import MyModal from '../MyModal';
+import MyModal from '../MyModal/MyModal';
 import './Main.css';
 
 const useStyles = makeStyles((theme) => ({
@@ -28,24 +29,22 @@ export default function Main(){
     const [redirect, updateRedirect] = useState(false);
     const [loading, updateLoding] = useState(true);
 
-    
     const classes = useStyles();
     
     const openModal = () => setModal(true)
     const closeModal = () => setModal(false)
 
     const  selectedCode = {
-                            '&amp;': '&',
-                            '&uuml;': 'ü',
-                            '&hellip;': '…',
-                            '&rdquo;': '"',
-                            '&#039;': "'",
-                            '&quot;': '"',
-                            '&ldquo;': '"',
-                            '&eacute;': 'é',
-                            '&ntilde;': 'ñ',
+        '&amp;': '&',
+        '&uuml;': 'ü',
+        '&hellip;': '…',
+        '&rdquo;': '"',
+        '&#039;': "'",
+        '&quot;': '"',
+        '&ldquo;': '"',
+        '&eacute;': 'é',
+        '&ntilde;': 'ñ',
     }
-
     
     const fetchData = async() => {
         const response = await axios.get(API_QUIZ);
@@ -54,28 +53,18 @@ export default function Main(){
         updateQuizData(response.data.results);  
         rightAnswer(response.data.results);  
         }
-    /*useEffect(()=> {
-        const fetchData = async() => {
-            const response = await axios.get(API_QUIZ);
-            //console.log(response.data);
-            updateQuizData(response.data.results);  
-            rightAnswer(response.data.results);  
-            }
-            fetchData();
-    }, [])*/
-   
    
     useEffect(() => {   
         fetchData();
     }, []);
 
+    
     function rightAnswer(quizData){
         quizData.map((question, idx) => {
             //console.log("Q: "+ question.correct_answer);
             updateCorrectAnswers(correctAnswers =>[...correctAnswers, question.correct_answer]);
-            })
-               
-        }
+        })
+    }
 
     function onChange(e){
         //e.preventDefault();
@@ -94,7 +83,6 @@ export default function Main(){
             }
         }
     }
-    
     
     function reStart(){
         updateQuizData([]);
@@ -116,6 +104,9 @@ export default function Main(){
     
     return ( 
         <section className = 'section-top'  >
+            <Helmet>
+                <title>Main</title>
+            </Helmet>
             {loading ? (
             <div className = {classes.loading}>
                <LinearProgress />
@@ -123,10 +114,7 @@ export default function Main(){
             </div>
            ): ( 
             
-            <form className = 'section-form'
-                            //onSubmit = {onSubmit}
-                            >
-                
+            <form className = 'section-form'>
                 {quizData.map((quiz, idx) => {
                     let answers = [quiz.correct_answer, ...quiz.incorrect_answers].sort(()=> Math.random() -3);
                     return (
@@ -147,17 +135,14 @@ export default function Main(){
                                                 value = {answer}
                                                 name = {quiz.question}
                                                // checked ={selectedAnswer === answer}
-                                                onChange = {onChange}
-                                                />
+                                                onChange = {onChange}/>
                                             <span className = 'radio-design'
                                                 id = 'design'
-                                                tabIndex = '0'>
-                                                    
-                                                </span>
+                                                tabIndex = '0'> 
+                                            </span>
                                             <span className = 'radio-text}'
                                                 id = 'text'
-                                                tabIndex = '0'
-                                                >
+                                                tabIndex = '0'>
                                                     {answer}
                                             </span>
                                         </label>
@@ -177,7 +162,7 @@ export default function Main(){
                         Submit     
                     </Button>}
                     <MyModal closeModal = {closeModal} modal = {modal} score = {score} reStart = {reStart} redirectHome = {redirectHome} />
-            </div> 
+                </div> 
             </form>
             )}
         </section>

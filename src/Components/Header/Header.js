@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {AppBar, Toolbar, Typography, IconButton, Drawer} from '@material-ui/core';
+import {AppBar, Toolbar, Typography, IconButton, Drawer, List, ListItem, ListItemText} from '@material-ui/core';
 import {makeStyles, useTheme} from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 
@@ -23,12 +23,18 @@ const useStyles = makeStyles(theme => ({
             flexShrink: 0,
         },
     },
+    toolbar: theme.mixins.toolbar,
+    drawerPaper: {
+      width: drawerWidth
+    }, 
 }));
 
 export default function Header(){
     const classes = useStyles();
     const theme = useTheme();
     const [openDrawer, setOpenDrawer] = useState(false);
+
+    const sideBarList = ['Game screen', 'State', 'About this app'];
 
     const handleDrawer = (open) => event => {
         console.log('event: ' + event.type, event.key);
@@ -37,6 +43,18 @@ export default function Header(){
         }
         setOpenDrawer(!openDrawer, open);
     }
+
+    const drawer = (
+        <div>
+            <List>
+                {sideBarList.map((text, index) => (
+                    <ListItem button key = {text}>
+                        <ListItemText primary = {text}/>
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
 
     
     return(
@@ -52,14 +70,16 @@ export default function Header(){
                 >
                     <MenuIcon />
                     <Drawer
-                        className = {classes.drawer}
+                        //className = {classes.drawer}
+                        classes = {{paper:classes.drawerPaper}}
                         tabIndex = '0'
                         variant = 'temporary'
                         anchor = {theme.direction === 'rtl' ? 'right' : 'left'} 
                         open = {openDrawer}
                         role="presentation"
                         onClose = {handleDrawer}
-                    >
+                    > 
+                     {drawer}
                     </Drawer>
                 </IconButton>
                 <Typography variant = 'h6' color = 'inherit' tabIndex = '0'>

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import {Link} from 'react-router-dom';
 import {Button} from '@material-ui/core';
 import {makeStyles} from '@material-ui/core/styles';
@@ -25,6 +26,9 @@ const useStyles = makeStyles((theme) => ({
   
     return (
       <div className = {classes.root}>
+        <Helmet>
+          <title>Main</title>
+        </Helmet>
         <div className={classes.startbutton}>
           <Link className = {classes.link} to = '/Main'> 
               <Button className = {classes.button} variant="contained" color="primary">
