@@ -79,7 +79,7 @@ export default function Main(){
             if(correctAnswers[i] === choosen){ 
                 updateScore(score => score + 1)
                 //updateScore(score +=1);
-                //console.log("score: "+score); 
+                console.log("score: "+score); 
             }
         }
     }
@@ -87,7 +87,7 @@ export default function Main(){
     function reStart(){
         updateQuizData([]);
         updateCorrectAnswers([]);
-        updateScore([]);
+        updateScore(0);
         setModal(false);
         fetchData();
         updateLoding(!false);
